@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-image: url('images/img24.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .feedback-container {
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid black;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ecc5c0;
+            backdrop-filter: blur(5px);
+        }
+        .feedback-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .feedback-item {
+            border-bottom: 1px solid black;
+            padding: 10px 0;
+        }
+        .feedback-item:last-child {
+            border-bottom: none;
+        }
+        .feedback-message {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <h2>View Feedback</h2>
+        <div id="feedbackList">
+            <!-- Feedback items will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to load feedback from localStorage and display it
+        function loadFeedback() {
+            let feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+            let feedbackList = document.getElementById('feedbackList');
+            feedbackList.innerHTML = ''; // Clear the feedback list
+
+            feedbacks.forEach((message, index) => {
+                let feedbackItem = document.createElement('div');
+                feedbackItem.className = 'feedback-item';
+                
+                feedbackItem.innerHTML = `
+                    <div class="feedback-message">${message}</div>
+                `;
+
+                feedbackList.appendChild(feedbackItem);
+            });
+        }
+
+        // Load feedback on page load
+        document.addEventListener('DOMContentLoaded', loadFeedback);
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/img24.jpg');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            overflow: auto; 
+        }
+        .container {
+            width: 100%; /* Adjust as needed */
+            max-width: 800px;
+            background-color: rgba(236, 197, 192, 0.9);
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            overflow: auto; /* Enable scrolling within the container */
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #f6dfe1;
+            overflow: auto;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+            word-wrap: break-word; 
+        }
+        th {
+            background-color: #f6dfe1;
+        }
+        .total {
+            font-weight: bold;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: whitesmoke;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Invoice</h2>
+    <table>
+        <tr>
+            <td>Bill No:</td>
+            <td id="billNo"></td>
+        </tr>
+        <tr>
+            <td>Date:</td>
+            <td id="date"></td>
+        </tr>
+        <tr>
+            <td>Function Name:</td>
+            <td id="functionName"></td>
+        </tr>
+        <tr>
+            <td>Number of Guests:</td>
+            <td id="numberOfGuests"></td>
+        </tr>
+    </table>
+
+    <h3>Items</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody id="items">
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="total">Total</td>
+                <td class="total" id="totalAmount"></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="btn-container">
+        <button onclick="goToBookingHistory()">OK</button>
+    </div>
+    <script>
+        function getQueryParams() {
+            var params = {};
+            var queryString = window.location.search.substring(1);
+            var queryArray = queryString.split('&');
+            for (var i = 0; i < queryArray.length; i++) {
+                var pair = queryArray[i].split('=');
+                if (pair[0] in params) {
+                    params[pair[0]] += ',' + decodeURIComponent(pair[1] || '');
+                } 
+                else {
+                    params[pair[0]] = decodeURIComponent(pair[1] || '');
+                }
+            }
+            return params;
+        }
+
+        function calculateCosts(params) {
+            var costs = {
+                dj: 7500,
+                stage: 5000,
+                microphone: 1000,
+                speakers: 2000,
+                breakfast: 300,
+                lunch: 1000,
+                "tea-snacks": 500,
+                dinner: 700,
+                lightings: 15000,
+                seating: 0,
+                chair: 200, // Added cost for chair
+                sofa: 500,
+                flowers: 200
+            };
+
+            var total = 0;
+            var items = [];
+
+            var selectedEquipment = [];
+    if (params.equipment) {
+        selectedEquipment = params.equipment.split(',');
+        selectedEquipment.forEach(function(item) {
+            if (item in costs) {
+                items.push({ name: item.charAt(0).toUpperCase() + item.slice(1), cost: costs[item] });
+                total += costs[item];
+            }
+        });
+    }
+
+    var selectedFoodOptions = [];
+    if (params.food) {
+        selectedFoodOptions = params.food.split(',');
+        selectedFoodOptions.forEach(function(item) {
+            if (item in costs) {
+                items.push({ name: item.charAt(0).toUpperCase() + item.slice(1), cost: costs[item] });
+                total += costs[item];
+            }
+        });
+    }
+
+
+            if (params.lightings === 'yes') {
+                items.push({ name: 'Lightings', cost: costs.lightings });
+                total += costs.lightings;
+            }
+
+            if (params.flowers === 'yes') {
+                items.push({ name: 'Flowers', cost: costs.flowers });
+                total += costs.flowers;
+            }
+
+            if (params.seating) {
+        var seatingOptions = params.seating.split(',');
+        seatingOptions.forEach(function(option) {
+            if (option in costs) {
+                items.push({ name: option.charAt(0).toUpperCase() + option.slice(1), cost: costs[option] });
+                total += costs[option];
+            }
+        });
+    }
+            return { items: items, total: total };
+        }
+
+        function generateBillNumber() {
+            return Math.floor(Math.random() * 1000000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var params = getQueryParams();
+
+            document.getElementById('billNo').textContent = generateBillNumber();
+            document.getElementById('date').textContent = params.eventDate;
+            document.getElementById('functionName').textContent = params.eventType.charAt(0).toUpperCase() + params.eventType.slice(1);
+            document.getElementById('numberOfGuests').textContent = params.numberOfGuests;
+
+            var costDetails = calculateCosts(params);
+            var itemsTable = document.getElementById('items');
+
+            costDetails.items.forEach(function (item) {
+                var row = itemsTable.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.textContent = item.name;
+                cell2.textContent = '$' + item.cost;
+            });
+
+            document.getElementById('totalAmount').textContent = '$' + costDetails.total;
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var params = getQueryParams();
+            storeBookingDetails(params);
+        });
+
+        function storeBookingDetails(params) {
+    var bookingHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+    var billNo = generateBillNumber();
+    var date = params.eventDate;
+    var functionName = params.eventType.charAt(0).toUpperCase() + params.eventType.slice(1);
+    var numberOfGuests = params.numberOfGuests;
+    var costDetails = calculateCosts(params);
+    var totalAmount = costDetails.total;
+
+    // Construct booking object
+    var booking = {
+        billNo: billNo,
+        date: date,
+        functionName: functionName,
+        numberOfGuests: numberOfGuests,
+        selectedEquipment: costDetails.items.filter(item => ['Dj', 'Stage', 'Microphone', 'Speakers'].includes(item.name)).map(item => item.name).join(', '),
+        selectedFoodOptions: costDetails.items.filter(item => ['Breakfast', 'Lunch', 'Tea-snacks', 'Dinner'].includes(item.name)).map(item => item.name).join(', '),
+        foodType: params.foodType || '',
+        lightings: params.lightings === 'yes' ? 'Yes' : 'No',
+        flowers: params.flowers === 'yes' ? 'Yes' : 'No',
+        seating: params.seating ? params.seating.replace(/-/g, ' ').split(',').map(option => option.charAt(0).toUpperCase() + option.slice(1)).join(' and ') : 'N/A',
+        totalAmount: totalAmount
+    };
+
+    bookingHistory.push(booking);
+    localStorage.setItem('bookingHistory', JSON.stringify(bookingHistory));
+}
+
+
+
+        function goToBookingHistory() {
+            window.location.href = 'booking_history.html';
+        }
+    </script>
+</body>
+</html>

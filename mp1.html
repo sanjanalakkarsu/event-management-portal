@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiestaBlend</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .navbar {
+            background: #333;
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: #575757;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .ctn:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #575757;
+        }
+
+        header {
+            background-image: url('img1.jpg') no-repeat center center/cover;
+            height: 100vh;
+            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+        }
+
+        .header-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-content .line {
+            width: 50%;
+            height: 3px;
+            background: #fff;
+            margin: 1rem auto;
+        }
+
+        .header-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-content a.ctn {
+            background: #333;
+            color: #fff;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        section {
+            display: none; /* Hide all sections by default */
+            padding: 4rem 2rem;
+        }
+
+        section.active {
+            display: block; /* Show only the active section */
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        section p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="logo">FiestaBlend</h1>
+        <ul class="nav-links">
+            <li><a href="#home" onclick="toggleSection('home')">Home</a></li>
+            <li><a href="#contact" onclick="toggleSection('contact')">Contact Us</a></li>
+            <li><a href="#about" onclick="toggleSection('about')">About Us</a></li>
+            <li class="ctn">
+                <a href="#">Login</a>
+                <div class="dropdown-content">
+                    <a href="login.html">User Login</a>
+                    <a href="adminlogin.html">Admin Login</a>
+                </div>
+            </li>    
+        </ul>
+    </nav>
+    <header>
+        <div class="header-content">
+            <h2>Where every celebration awaits</h2>
+            <div class="line"></div>
+            <h1>Explore The Endless Celebrations</h1>
+        </div>
+    </header>
+
+    <section id="home">
+        <h2>Welcome to FiestaBlend</h2>
+        <p>Welcome to FiestaBlend, your premier destination for seamless event management. Discover a diverse array of event categories, from weddings to corporate gatherings, expertly curated by our experienced team. Explore upcoming and featured events, glean inspiration from our latest trends, and benefit from our comprehensive suite of services, including planning, venue selection, catering, entertainment, and more. Read testimonials from delighted clients, stay updated with our blog on event tips and industry news, and connect with us on social media for real-time updates. Choose FiestaBlend for your next event and experience unmatched professionalism and creativity. Contact us today to transform your vision into an unforgettable reality.</p>
+    </section>
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Have questions or ready to plan your next event? Reach out to FiestaBlend using the details below or submit an inquiry through the form. Our dedicated team is here to assist you every step of the way. Contact us via email at <a href="mailto:abc@gmail.com">abc@gmail.com</a>.</p>
+    </section>
+
+    <section id="about">
+        <h2>About Us</h2>
+        <p>Discover FiestaBlend, where event planning becomes an art form. With a dedicated team of seasoned professionals, we specialize in crafting unforgettable experiences that reflect your unique style and vision. Our mission is to exceed expectations with meticulous planning, creative flair, and personalized service. From intimate gatherings to large-scale productions, FiestaBlend offers comprehensive event solutions tailored to your needs. Choose us for our expertise, creativity, and commitment to excellence. Let's collaborate to turn your event dreams into reality. Contact FiestaBlend today and let the magic begin!</p>
+    </section>
+    <script>
+        function toggleSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the selected section and scroll to it
+            const selectedSection = document.getElementById(sectionId);
+            selectedSection.classList.add('active');
+            selectedSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize by showing the home section
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleSection('home');
+        });
+    </script>
+</body>
+</html>

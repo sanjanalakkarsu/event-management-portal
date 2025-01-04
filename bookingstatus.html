@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/img24.jpg');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+
+        .container {
+            max-width: 600px;
+            background-color: #Ecc5c0;
+
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: whitesmoke;
+            color: black;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px 0;
+
+        }
+        button:hover {
+            background-color: whitesmoke;
+        }
+        #statusResult {
+            margin: 10px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Booking Status</h2>
+        <form id="bookingStatusForm">
+            <label for="bookingId">Enter Booking ID:</label>
+            <input type="text" id="bookingId" name="bookingId" required>
+            <button type="button" onclick="checkStatus()">Check Status</button>
+        </form>
+        <div id="statusResult"></div>
+        <button onclick="goToWelcomePage()">OK</button>
+    </div>
+
+    <script>
+        function checkStatus() {
+            var bookingId = document.getElementById('bookingId').value;
+            var statusResult = document.getElementById('statusResult');
+
+            // Fetch booking status from local storage
+            var bookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+            var booking = bookings.find(b => b.billNo == bookingId);
+
+            if (booking) {
+                statusResult.innerHTML = "<p>Status for Booking ID " + bookingId + ": <strong>" + (booking.status || 'Pending') + "</strong></p>";
+            } else {
+                statusResult.innerHTML = "<p>Error: Booking ID not found</p>";
+            }
+        }
+
+        function goToWelcomePage() {
+            window.location.href = 'welcome.html';
+        }
+    </script>
+</body>
+</html>

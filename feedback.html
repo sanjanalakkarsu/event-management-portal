@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/img24.jpg');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .feedback-container {
+            width : 30%;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #Ecc5c0
+
+        }
+
+        .feedback-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .btn-container {
+            text-align: center;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            background-color: #b76e79;
+            color: black;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button.cancel-btn {
+            background-color: #b76e79;
+        }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <h2>Feedback</h2>
+        <form id="feedbackForm" onsubmit="submitFeedback(event)">
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" placeholder="Enter your feedback" required></textarea>
+            </div>
+            <div class="btn-container">
+                <button type="submit">Submit</button>
+                <button type="button" class="cancel-btn" onclick="window.location.href='welcome.html'">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function submitFeedback(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Fetch feedback message
+            const feedbackMessage = document.getElementById('message').value;
+
+            // Store feedback in localStorage
+            let feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+            feedbacks.push(feedbackMessage);
+            localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+            // Optionally show a success message or redirect to another page
+            alert('Thank you for your feedback!');
+            window.location.href = 'welcome.html';
+        }
+    </script>
+</body>
+</html>

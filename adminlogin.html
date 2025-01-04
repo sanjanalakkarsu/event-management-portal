@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/img6.jpg'); /* Use the actual path to your background image */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.2); /* Transparent background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: transparent;
+            backdrop-filter: blur(10px); /* Blur effect for background */
+            width: 300px; /* Width of the login container */
+            text-align: center; /* Center align text */
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: black; /* White text color for better visibility */
+        }
+        .login-container label {
+            display: block;
+            background-position: center;
+            margin-bottom: 5px;
+            color: black; /* White text color for better visibility */
+        }
+        .login-container input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 2px;
+            background: white; /* Transparent background */
+        }
+        .login-container button {
+            width: 80%;
+            padding: 10px;
+            background: white; /* Transparent background */
+            margin-bottom: 5px;
+            color: black;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-container button:hover {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form onsubmit="return validateForm()">
+            <label for="adminId">Admin ID</label>
+            <input type="text" id="adminId" name="adminId" placeholder="Enter Admin ID" required>
+            <label for="adminPassword">Password</label>
+            <input type="password" id="adminPassword" name="adminPassword" placeholder="Enter Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script>
+        function validateForm() {
+            const adminId = document.getElementById('adminId').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+
+            // You should handle the authentication securely on the server side
+            // For demonstration purposes, the credentials are hardcoded here
+            const validAdminId = 'admin';
+            const validAdminPassword = 'password123';
+
+            if (adminId === validAdminId && adminPassword === validAdminPassword) {
+                // Redirect to the dashboard page
+                window.location.href = 'welcomeadmin.html';
+                return false; // Prevent form submission
+            } else {
+                alert('Invalid Admin ID or Password');
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>

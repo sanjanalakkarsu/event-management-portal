@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking History</title>
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/img24.jpg');
+            background-color: #Ecc5c0;
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #f6dfe1;
+            background: #f6dfe1(255, 255, 255, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #d998a3;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+        }
+
+        button:hover {
+            background-color: whitesmoke;
+        }
+
+        @media (max-width: 600px) {
+            table {
+                width: 100%;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Booking History</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Bill No</th>
+                <th>Date</th>
+                <th>Function Name</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody id="bookingHistory">
+        </tbody>
+    </table>
+    <div class="btn-container">
+        <button onclick="goToWelcomePage()">OK</button>
+    </div>
+
+    <script>
+        function displayBookingHistory() {
+    var bookingHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+    var bookingHistoryTable = document.getElementById('bookingHistory');
+
+    bookingHistory.forEach(function(booking) {
+        var row = bookingHistoryTable.insertRow();
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        
+
+        cell1.textContent = booking.billNo;
+        cell2.textContent = booking.date;
+        cell3.textContent = booking.functionName;
+        cell4.textContent = '$' + booking.totalAmount;
+
+        
+    });
+}
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            displayBookingHistory();
+        });
+
+
+        function goToWelcomePage() {
+            window.location.href = 'welcome.html';
+        }
+    </script>
+</body>
+</html>
